@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f0f4f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .form-container {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            color: #fff;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5a6268;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Registration Form -->
+    <div class="form-container">
+        <h2>Register Your Details</h2>
+        <form id="registrationForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="age">Age (Years):</label>
+            <input type="number" id="age" name="age" required><br>
+
+            <button type="submit">Submit Registration</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get values from the form
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const age = document.getElementById("age").value;
+
+            // Create an object for the registration data
+            const registrationData = {
+                name: name,
+                email: email,
+                age: age
+            };
+
+            // Get existing registrations from localStorage, or initialize it as an empty array
+            let registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+
+            // Check for existing registration (unique based on name and email)
+            const isDuplicate = registrations.some(registration => registration.email === email);
+            if (isDuplicate) {
+                alert("This email is already registered.");
+                return;
+            }
+
+            // Add the new registration to the list
+            registrations.push(registrationData);
+
+            // Save the updated list back to localStorage
+            localStorage.setItem('registrations', JSON.stringify(registrations));
+
+            // Redirect to result page to display the registrations
+            window.location.href = "result.html";
+        });
+    </script>
+</body>
+</html>

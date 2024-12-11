@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Summary</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f0f4f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .result-container {
+            background: linear-gradient(to left, #ff7e5f, #feb47b);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .registration-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .registration-item {
+            padding: 14px;
+            background-color: #fff;
+            margin: 12px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #5a6268;
+        }
+
+        .clear-button {
+            background-color: #dc3545;
+            margin-top: 10px;
+        }
+
+        .clear-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h2>Registration Summary</h2>
+        <div class="registration-list" id="registrationList">
+            <!-- Registration items will be inserted here -->
+        </div>
+        <button onclick="window.location.href='index.html'">Back to Registration</button>
+        <button class="clear-button" onclick="clearRegistrations()">Clear All Registrations</button>
+    </div>
+
+    <script>
+        // Get the list of registrations from localStorage
+        const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+
+        // Get the container for displaying the registrations
+        const registrationListContainer = document.getElementById('registrationList');
+
+        if (registrations.length === 0) {
+            registrationListContainer.innerHTML = "<p>No registrations available at this moment.</p>";
+        } else {
+            // Display each registration
+            registrations.forEach((registration, index) => {
+                const registrationItem = document.createElement('div');
+                registrationItem.className = 'registration-item';
+                registrationItem.innerHTML = `
+                    <strong>Registration #${index + 1}</strong><br>
+                    <strong>Full Name:</strong> ${registration.name}<br>
+                    <strong>Email Address:</strong> ${registration.email}<br>
+                    <strong>Age (Years):</strong> ${registration.age}
+                `;
+                registrationListContainer.appendChild(registrationItem);
+            });
+        }
+
+        // Function to clear all registrations
+        function clearRegistrations() {
+            if (confirm("Are you sure you want to clear all registrations?")) {
+                // Clear all items in localStorage
+                localStorage.removeItem('registrations');
+                // Refresh the page
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
